@@ -44,9 +44,25 @@ if grep -q "__VERSION_PLACEHOLDER__" "$APP/Contents/Resources/whisp.py"; then
     : # placeholder still present in apply_update path - that's intentional
 fi
 
-# Optional icon
+# Icon. Three accepted inputs (in order of preference):
+#   1. app/AppIcon.icns      pre-built, use as-is
+#   2. app/AppIcon.png       a 1024x1024 (or square) PNG, converted with png2icns
+#   3. nothing               generic-app icon, no big deal
 if [ -f app/AppIcon.icns ]; then
     cp app/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
+    echo "Icon: bundled app/AppIcon.icns"
+elif [ -f app/AppIcon.png ]; then
+    if command -v png2icns >/dev/null 2>&1; then
+        png2icns "$APP/Contents/Resources/AppIcon.icns" app/AppIcon.png \
+            && echo "Icon: converted app/AppIcon.png -> AppIcon.icns" \
+            || echo "Icon: png2icns failed (skipping)" >&2
+    elif command -v magick >/dev/null 2>&1; then
+        magick app/AppIcon.png "$APP/Contents/Resources/AppIcon.icns" \
+            && echo "Icon: converted with imagemagick" \
+            || echo "Icon: imagemagick failed (skipping)" >&2
+    else
+        echo "Icon: app/AppIcon.png present but no png2icns/imagemagick — skipping" >&2
+    fi
 fi
 
 # Zip it for distribution.
