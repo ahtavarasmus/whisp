@@ -7,11 +7,8 @@ on:
 
 jobs:
   build:
+    # Matches the host runner registered with label "ubuntu-latest:host".
     runs-on: ubuntu-latest
-    container:
-      image: catthehacker/ubuntu:act-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,15 +16,10 @@ jobs:
       - name: Build Whisp.app
         run: bash scripts/build_app.sh "${{ github.sha }}"
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Whisp-${{ github.sha }}
-          path: dist/Whisp-*.zip
-
       - name: Publish "latest" release
         env:
-          FORGEJO_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+          # RELEASE_TOKEN (not FORGEJO_TOKEN) because Forgejo reserves the FORGEJO_ prefix.
+          FORGEJO_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           FORGEJO_HOST: git.retardhub.com
           REPO_OWNER: ahtavarasmus
           REPO_NAME: whisp
