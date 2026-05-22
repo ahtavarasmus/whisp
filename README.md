@@ -14,6 +14,25 @@ Push-to-talk dictation for macOS. Hold **Fn**, speak, release. Text is typed
 at the cursor. Runs entirely locally on Apple Silicon using Kyutai STT (MLX).
 Lives in the menu bar, updates itself from your Forgejo repo on demand.
 
+## First open: clear the macOS block
+
+The .app is unsigned, so macOS blocks it the first time. To allow it:
+
+1. Double-click `Whisp.app` and dismiss the warning.
+2. Open `System Settings` -> `Privacy & Security`.
+3. Scroll to the bottom. Next to **"Whisp was blocked to protect your Mac"**
+   click **Open Anyway**.
+4. Authenticate, then click **Open** in the confirmation dialog.
+
+One-liner alternative from Terminal:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/Whisp.app
+```
+
+After this, double-click works normally. In-app updates (Check for updates)
+don't re-trigger this prompt.
+
 ## Requirements
 
 - Apple Silicon Mac (M-series), macOS 13+
@@ -38,7 +57,7 @@ After CI builds and publishes a release (see below):
 1. Grab `Whisp.app.zip` from
    `https://git.retardhub.com/ahtavarasmus/whisp/releases/tag/latest`
 2. Unzip, drag `Whisp.app` to `/Applications` (or `~/Applications`)
-3. Right-click -> **Open** the first time (Gatekeeper: unsigned)
+3. Open it past Gatekeeper — see [First open](#first-open-clear-the-macos-block) above
 4. Grant Microphone and Accessibility in System Settings -> Privacy & Security
 5. Click the menu bar dot -> **Check for updates** any time to pull the
    latest `whisp.py` from `main` and restart in place
@@ -113,9 +132,8 @@ open dist/Whisp.app
 - macOS built-in **Press Fn to Dictate** fights whisp for the key. Disable
   in `System Settings -> Keyboard -> Dictation`.
 - Memory at idle: ~2 GB (bf16 weights resident).
-- The .app is unsigned. First open requires right-click -> Open. To avoid
-  that on every fresh download, run
-  `xattr -dr com.apple.quarantine Whisp.app` after unzipping.
+- The .app is unsigned. See [First open](#first-open-clear-the-macos-block)
+  for the Gatekeeper unblock step.
 - Permissions follow the launching app. The .app gets them tied to the
   uv-vendored Python binary, which moves between builds, so granting
   permission once may not survive a `uv` cache wipe. If that happens,
