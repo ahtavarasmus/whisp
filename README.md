@@ -2,6 +2,12 @@
   <img src="app/AppIcon.png" alt="Whisp" width="160" />
 </p>
 
+<p align="center">
+  <a href="https://git.retardhub.com/ahtavarasmus/whisp/releases/download/latest/Whisp.app.zip">
+    <img alt="Download Whisp.app" src="https://img.shields.io/badge/Download-Whisp.app-black?style=for-the-badge&logo=apple&logoColor=white" />
+  </a>
+</p>
+
 # whisp
 
 Push-to-talk dictation for macOS. Hold **Fn**, speak, release. Text is typed
