@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="app/AppIcon.png" alt="Whisp" width="160" />
+</p>
+
 # whisp
 
 Push-to-talk dictation for macOS. Hold **Fn**, speak, release. Text is typed
