@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ahtava.whisp</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/ahtavarasmus/.local/bin/uv</string>
+        <string>run</string>
+        <string>--script</string>
+        <string>/Users/ahtavarasmus/Developer/whips/whisp.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/ahtavarasmus/Developer/whips</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/ahtavarasmus/.local/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>/Users/ahtavarasmus</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>ProcessType</key>
+    <string>Interactive</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/ahtavarasmus/Library/Logs/whisp.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/ahtavarasmus/Library/Logs/whisp.log</string>
+</dict>
+</plist>

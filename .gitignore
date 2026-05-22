@@ -1,0 +1,8 @@
+dist/
+*.app/
+*.zip
+__pycache__/
+*.pyc
+.venv/
+.uv/
+.DS_Store

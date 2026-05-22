@@ -1,0 +1,35 @@
+name: build-and-release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu:act-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Whisp.app
+        run: bash scripts/build_app.sh "${{ github.sha }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Whisp-${{ github.sha }}
+          path: dist/Whisp-*.zip
+
+      - name: Publish "latest" release
+        env:
+          FORGEJO_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+          FORGEJO_HOST: git.retardhub.com
+          REPO_OWNER: ahtavarasmus
+          REPO_NAME: whisp
+          SHA: ${{ github.sha }}
+        run: bash scripts/publish_release.sh
